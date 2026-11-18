@@ -1,0 +1,23 @@
+<div>
+  <div class="mb-4 flex items-center justify-between">
+    <h2 class="text-xl font-extrabold text-taupe">Available slots</h2>
+    {% if service %}<span class="rounded-full bg-[#f7f2ec] px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-taupe/70">{{ service.name }}</span>{% endif %}
+  </div>
+
+  {% if slots %}
+    <div class="flex flex-wrap gap-3">
+      {% for slot in slots %}
+        <form method="post" action="{% url 'appointments:booking' %}">
+          {% csrf_token %}
+          <input type="hidden" name="business" value="{{ business.id }}">
+          <input type="hidden" name="service" value="{{ service.id }}">
+          <button type="submit" name="slot" value="{{ slot|date:'Y-m-d\TH:i' }}" class="rounded-full border border-taupe/15 bg-[#f7f2ec] px-4 py-2 text-sm font-bold text-taupe transition hover:border-terracotta hover:text-terracotta">
+            {{ slot|time:'h:i A' }}
+          </button>
+        </form>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="rounded-2xl border border-dashed border-taupe/20 bg-[#f7f2ec] p-5 text-sm text-taupe/70">There are no available slots for this service and date. Try another day or service.</div>
+  {% endif %}
+</div>

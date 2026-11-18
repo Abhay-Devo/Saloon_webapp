@@ -1,0 +1,59 @@
+:root {
+  --parchment: #F3EEE3;
+  --taupe: #4A433C;
+  --sandstone: #E6DFD1;
+  --terracotta: #D9541E;
+  --clay: #C84728;
+  --ink: #271F1B;
+}
+
+body {
+  background: var(--parchment);
+  color: var(--taupe);
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='date'],
+input[type='time'],
+select,
+textarea {
+  width: 100%;
+  border: 1px solid rgba(74, 67, 60, 0.12);
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  color: var(--taupe);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(217, 84, 30, 0.65);
+  box-shadow: 0 0 0 4px rgba(217, 84, 30, 0.12);
+  outline: none;
+}
+
+.booking-select,
+.booking-input {
+  border-radius: 1rem;
+  border: 1px solid rgba(74, 67, 60, 0.12);
+  background: rgba(255,255,255,0.7);
+}
+
+button {
+  cursor: pointer;
+}
+
+.text-shadow-soft {
+  text-shadow: 0 4px 12px rgba(74, 67, 60, 0.10);
+}

@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block title %}Velvet & Blade | Premium salon booking{% endblock %}
+
+{% block content %}
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(217,84,30,0.12),_transparent_40%),radial-gradient(circle_at_bottom_right,_rgba(74,67,60,0.08),_transparent_35%)]"></div>
+  <div class="relative mx-auto max-w-7xl px-4 pb-16 pt-16 sm:px-6 lg:px-8 lg:pt-24">
+    <div class="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+      <div>
+        <span class="inline-flex items-center rounded-full border border-taupe/10 bg-white/60 px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-taupe/75 shadow-sm">next-gen appointment flow</span>
+        <h1 class="mt-6 max-w-xl text-4xl font-extrabold leading-tight text-taupe sm:text-5xl lg:text-6xl">Book a salon experience without the waiting.</h1>
+        <p class="mt-5 max-w-xl text-lg leading-8 text-taupe/75">Skip the queue, reserve exact time slots, and let your salon run smoother with live availability, smarter schedules, and real-time customer updates.</p>
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          <a href="{% url 'accounts:register' %}" class="rounded-full bg-terracotta px-6 py-3 text-sm font-bold text-white shadow-soft transition hover:bg-clay">Book your slot</a>
+          <a href="{% url 'accounts:login' %}" class="rounded-full border border-taupe/15 bg-white/70 px-6 py-3 text-sm font-bold text-taupe shadow-sm transition hover:bg-white">Owner login</a>
+        </div>
+        <div class="mt-8 flex items-center gap-10 text-sm text-taupe/75">
+          <div>
+            <div class="text-2xl font-extrabold text-taupe">2.4k+</div>
+            <div>Bookings saved</div>
+          </div>
+          <div>
+            <div class="text-2xl font-extrabold text-taupe">12 min</div>
+            <div>Average wait</div>
+          </div>
+          <div>
+            <div class="text-2xl font-extrabold text-taupe">4.9/5</div>
+            <div>Customer rating</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="absolute -inset-6 rounded-[30px] bg-terracotta/10 blur-3xl"></div>
+        <div class="relative rounded-[30px] border border-taupe/10 bg-white/80 p-5 shadow-soft backdrop-blur-xl">
+          <div class="rounded-[26px] bg-[#f8f3ea] p-5">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs font-bold uppercase tracking-[0.2em] text-taupe/60">Today</p>
+                <h3 class="mt-2 text-2xl font-extrabold text-taupe">9:30 AM</h3>
+              </div>
+              <span class="inline-flex rounded-full bg-[#d6f0d9] px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-[#1b5c34]">Open</span>
+            </div>
+            <div class="mt-6 space-y-3">
+              <div class="flex items-center justify-between rounded-2xl bg-white px-4 py-3 shadow-sm">
+                <span class="text-sm font-semibold text-taupe/80">Haircut</span>
+                <span class="text-sm font-extrabold text-taupe">18 slots</span>
+              </div>
+              <div class="flex items-center justify-between rounded-2xl bg-white px-4 py-3 shadow-sm">
+                <span class="text-sm font-semibold text-taupe/80">Beard trim</span>
+                <span class="text-sm font-extrabold text-taupe">9 slots</span>
+              </div>
+              <div class="flex items-center justify-between rounded-2xl bg-white px-4 py-3 shadow-sm">
+                <span class="text-sm font-semibold text-taupe/80">Spa ritual</span>
+                <span class="text-sm font-extrabold text-taupe">6 slots</span>
+              </div>
+            </div>
+            <div class="mt-6 rounded-2xl bg-taupe p-4 text-white shadow-soft">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-xs uppercase tracking-[0.18em] text-white/70">Next available</div>
+                  <div class="mt-2 text-xl font-extrabold">12:20 PM</div>
+                </div>
+                <button class="rounded-full bg-terracotta px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-white">Book now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if businesses %}
+<section class="mx-auto max-w-7xl px-4 pb-8 pt-4 sm:px-6 lg:px-8">
+  <div class="mb-8 text-center">
+    <p class="text-xs font-bold uppercase tracking-[0.24em] text-taupe/60">Approved salons</p>
+    <h2 class="mt-4 text-3xl font-extrabold text-taupe sm:text-4xl">Discover trusted businesses</h2>
+  </div>
+  <div class="grid gap-5 md:grid-cols-3">
+    {% for business in businesses %}
+      <div class="rounded-[28px] border border-taupe/10 bg-white/70 p-6 shadow-soft">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-extrabold text-taupe">{{ business.name }}</h3>
+          <span class="rounded-full bg-[#d6f0d9] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#1b5c34]">Verified</span>
+        </div>
+        <p class="mt-3 text-sm leading-7 text-taupe/70">{{ business.tagline|default:'Premium appointments and polished experiences.' }}</p>
+        <div class="mt-5 text-sm text-taupe/75">
+          <div>{{ business.city }}</div>
+          <div class="mt-2">Open daily: {{ business.opening_time|time:'h:i A' }} - {{ business.closing_time|time:'h:i A' }}</div>
+        </div>
+        <a href="{% url 'appointments:booking' %}?business={{ business.id }}" class="mt-6 inline-flex rounded-full bg-terracotta px-4 py-2 text-sm font-bold text-white transition hover:bg-clay">Book here</a>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section id="features" class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+  <div class="mb-10 text-center">
+    <p class="text-xs font-bold uppercase tracking-[0.24em] text-taupe/60">Why businesses choose us</p>
+    <h2 class="mt-4 text-3xl font-extrabold text-taupe sm:text-4xl">Built for both customers and owners</h2>
+  </div>
+  <div class="grid gap-5 md:grid-cols-3">
+    <div class="rounded-[28px] border border-taupe/10 bg-white/60 p-7 shadow-soft">
+      <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f6d9ca] text-2xl">⚡</div>
+      <h3 class="text-xl font-extrabold text-taupe">Live slot intelligence</h3>
+      <p class="mt-3 text-sm leading-7 text-taupe/70">Every service duration, team schedule, and buffer is calculated in real time so your next available time is always accurate.</p>
+    </div>
+    <div class="rounded-[28px] border border-taupe/10 bg-white/60 p-7 shadow-soft">
+      <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#dfe7d9] text-2xl">💬</div>
+      <h3 class="text-xl font-extrabold text-taupe">Frictionless communication</h3>
+      <p class="mt-3 text-sm leading-7 text-taupe/70">Customers confirm bookings with fewer steps, while owners keep services, staff, and reminders aligned in one place.</p>
+    </div>
+    <div class="rounded-[28px] border border-taupe/10 bg-white/60 p-7 shadow-soft">
+      <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#e3d6f8] text-2xl">📈</div>
+      <h3 class="text-xl font-extrabold text-taupe">More revenue, less chaos</h3>
+      <p class="mt-3 text-sm leading-7 text-taupe/70">Avoid overbooking, reduce walk-in confusion, and convert more customers with a premium polished experience.</p>
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works" class="bg-[#efe6d9] py-20">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mb-10 text-center">
+      <p class="text-xs font-bold uppercase tracking-[0.24em] text-taupe/60">How it works</p>
+      <h2 class="mt-4 text-3xl font-extrabold text-taupe sm:text-4xl">Simple for customers. Powerful for teams.</h2>
+    </div>
+    <div class="grid gap-6 md:grid-cols-3">
+      <div class="rounded-[28px] border border-taupe/10 bg-white/70 p-7 shadow-sm">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-terracotta text-lg font-extrabold text-white">1</div>
+        <h3 class="text-xl font-extrabold text-taupe">Choose a service</h3>
+        <p class="mt-3 text-sm leading-7 text-taupe/70">Customers browse groom, cut, or wellness services with clear durations, pricing, and care options.</p>
+      </div>
+      <div class="rounded-[28px] border border-taupe/10 bg-white/70 p-7 shadow-sm">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-taupe text-lg font-extrabold text-white">2</div>
+        <h3 class="text-xl font-extrabold text-taupe">Pick an available slot</h3>
+        <p class="mt-3 text-sm leading-7 text-taupe/70">Slot availability updates instantly using each service duration, buffer rule, and appointment load.</p>
+      </div>
+      <div class="rounded-[28px] border border-taupe/10 bg-white/70 p-7 shadow-sm">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#d8d0c6] text-lg font-extrabold text-taupe">3</div>
+        <h3 class="text-xl font-extrabold text-taupe">Confirm and relax</h3>
+        <p class="mt-3 text-sm leading-7 text-taupe/70">The appointment is saved, reminders can be sent, and the business team sees the schedule in real time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+  <div class="rounded-[32px] border border-taupe/10 bg-white/80 p-8 shadow-soft">
+    <div class="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-[0.24em] text-taupe/60">Simple pricing</p>
+        <h2 class="mt-4 text-3xl font-extrabold text-taupe sm:text-4xl">One platform for reservations, operations, and growth.</h2>
+      </div>
+      <div class="rounded-[28px] bg-taupe p-7 text-white shadow-soft">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-sm uppercase tracking-[0.18em] text-white/70">Starter</div>
+            <div class="mt-4 text-4xl font-extrabold">₹2,499</div>
+          </div>
+          <div class="rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-white/80">monthly</div>
+        </div>
+        <ul class="mt-6 space-y-3 text-sm text-white/80">
+          <li>• Unlimited appointments</li>
+          <li>• Live availability engine</li>
+          <li>• Team calendar and staff profiles</li>
+          <li>• Quick onboarding for new businesses</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" class="mx-auto max-w-7xl px-4 pb-20 pt-8 sm:px-6 lg:px-8">
+  <div class="grid gap-6 md:grid-cols-3">
+    <div class="rounded-[28px] border border-taupe/10 bg-white/70 p-6 shadow-soft">
+      <div class="mb-5 flex items-center gap-1 text-amber-500">★★★★★</div>
+      <p class="text-sm leading-7 text-taupe/75">"I booked my haircut in under 30 seconds and arrived exactly on time. The flow felt premium and stress-free."</p>
+      <div class="mt-5 font-extrabold text-taupe">Aisha M.</div>
+    </div>
+    <div class="rounded-[28px] border border-taupe/10 bg-white/70 p-6 shadow-soft">
+      <div class="mb-5 flex items-center gap-1 text-amber-500">★★★★★</div>
+      <p class="text-sm leading-7 text-taupe/75">"We cut down queue complaints almost immediately. The team schedule updates were incredibly clear and easy to use."</p>
+      <div class="mt-5 font-extrabold text-taupe">Rahul P.</div>
+    </div>
+    <div class="rounded-[28px] border border-taupe/10 bg-white/70 p-6 shadow-soft">
+      <div class="mb-5 flex items-center gap-1 text-amber-500">★★★★★</div>
+      <p class="text-sm leading-7 text-taupe/75">"The appointment logic saved us from double-booking and gave customers a much smoother experience from the first click."</p>
+      <div class="mt-5 font-extrabold text-taupe">Neha S.</div>
+    </div>
+  </div>
+</section>
+{% endblock %}

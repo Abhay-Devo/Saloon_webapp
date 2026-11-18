@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div>
+      <p class="text-xs font-bold uppercase tracking-[0.24em] text-taupe/60">Welcome back</p>
+      <h1 class="mt-3 text-4xl font-extrabold text-taupe">{% if profile %}{{ profile.full_name }}{% else %}{{ user.username }}{% endif %}</h1>
+    </div>
+    <div class="flex gap-3">
+      <a href="{% url 'appointments:booking' %}" class="rounded-full bg-terracotta px-5 py-3 text-sm font-bold text-white shadow-soft transition hover:bg-clay">Book new appointment</a>
+      <a href="{% url 'users:profile' %}" class="rounded-full border border-taupe/15 bg-white/70 px-5 py-3 text-sm font-bold text-taupe shadow-sm transition hover:bg-white">Edit profile</a>
+    </div>
+  </div>
+
+  <div class="grid gap-5 md:grid-cols-4">
+    <div class="rounded-[28px] border border-taupe/10 bg-white/70 p-5 shadow-soft">
+      <p class="text-xs font-bold uppercase tracking-[0.18em] text-taupe/60">Role</p>
+      <div class="mt-4 text-2xl font-extrabold text-taupe">{% if user_role %}{{ user_role.get_role_display }}{% else %}Customer{% endif %}</div>
+    </div>
+    <div class="rounded-[28px] border border-taupe/10 bg-white/70 p-5 shadow-soft">
+      <p class="text-xs font-bold uppercase tracking-[0.18em] text-taupe/60">Bookings</p>
+      <div class="mt-4 text-2xl font-extrabold text-taupe">{{ upcoming|length }}</div>
+    </div>
+    <div class="rounded-[28px] border border-taupe/10 bg-white/70 p-5 shadow-soft">
+      <p class="text-xs font-bold uppercase tracking-[0.18em] text-taupe/60">Preferred salon</p>
+      <div class="mt-4 text-lg font-extrabold text-taupe">{% if business %}{{ business.name }}{% else %}Your studio{% endif %}</div>
+    </div>
+    <div class="rounded-[28px] border border-taupe/10 bg-white/70 p-5 shadow-soft">
+      <p class="text-xs font-bold uppercase tracking-[0.18em] text-taupe/60">Member since</p>
+      <div class="mt-4 text-lg font-extrabold text-taupe">{{ user.date_joined|date:'M Y' }}</div>
+    </div>
+  </div>
+
+  <div class="mt-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+    <div class="rounded-[32px] border border-taupe/10 bg-white/80 p-6 shadow-soft">
+      <div class="mb-5 flex items-center justify-between">
+        <h2 class="text-2xl font-extrabold text-taupe">Upcoming appointments</h2>
+        <span class="rounded-full bg-[#edf7ef] px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-[#2d6b3e]">Live</span>
+      </div>
+      <div class="space-y-4">
+        {% for booking in upcoming %}
+          <div class="flex items-center justify-between rounded-2xl bg-[#f7f2ec] p-4">
+            <div>
+              <div class="text-lg font-extrabold text-taupe">{{ booking.service.name }}</div>
+              <div class="mt-1 text-sm text-taupe/70">{{ booking.start_time|date:'D, M d' }} • {{ booking.start_time|time:'h:i A' }} with {{ booking.staff.name }}</div>
+            </div>
+            <span class="rounded-full bg-[#d9f1e0] px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-[#1a6340]">{{ booking.status }}</span>
+          </div>
+        {% empty %}
+          <div class="rounded-2xl border border-dashed border-taupe/20 bg-[#f7f2ec] p-5 text-sm text-taupe/70">No appointments yet. Book your first session in just a few clicks.</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="rounded-[32px] border border-taupe/10 bg-white/80 p-6 shadow-soft">
+      <h2 class="text-2xl font-extrabold text-taupe">Profile snapshot</h2>
+      <div class="mt-6 space-y-4 text-sm text-taupe/75">
+        <div class="rounded-2xl bg-[#f7f2ec] p-4"><span class="font-bold text-taupe">Phone:</span> {% if profile and profile.phone %}{{ profile.phone }}{% else %}Add a phone number{% endif %}</div>
+        <div class="rounded-2xl bg-[#f7f2ec] p-4"><span class="font-bold text-taupe">Gender:</span> {% if profile %}{{ profile.get_gender_display }}{% else %}Not set{% endif %}</div>
+        <div class="rounded-2xl bg-[#f7f2ec] p-4"><span class="font-bold text-taupe">Preferred services:</span> {% if profile and profile.preferred_services %}{{ profile.preferred_services }}{% else %}Choose your favourites{% endif %}</div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

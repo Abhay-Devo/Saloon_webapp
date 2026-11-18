@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="grid items-start gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+    <div class="rounded-[32px] bg-taupe p-8 text-white shadow-soft">
+      <p class="text-xs font-bold uppercase tracking-[0.24em] text-white/70">For customers</p>
+      <h1 class="mt-4 text-4xl font-extrabold">Create your customer account.</h1>
+      <p class="mt-5 text-base leading-7 text-white/80">Book appointments, keep your preferences, and manage your upcoming visits with a simple, premium experience.</p>
+      <div class="mt-8 space-y-4 text-sm text-white/85">
+        <div class="rounded-2xl bg-white/5 px-4 py-3">Book salons and service providers in minutes.</div>
+        <div class="rounded-2xl bg-white/5 px-4 py-3">Save your preferred services and contact details.</div>
+        <div class="rounded-2xl bg-white/5 px-4 py-3">Track appointments from your dashboard.</div>
+      </div>
+    </div>
+
+    <div class="rounded-[32px] border border-taupe/10 bg-white/80 p-8 shadow-soft">
+      <h2 class="text-2xl font-extrabold text-taupe">Create free account</h2>
+      <form method="post" class="mt-6 space-y-5">
+        {% csrf_token %}
+        {% for field in form %}
+          <div>
+            <label for="{{ field.id_for_label }}" class="mb-2 block text-sm font-bold text-taupe">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<div class="mt-2 text-sm text-red-600">{{ field.errors|join:', ' }}</div>{% endif %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="w-full rounded-full bg-terracotta px-5 py-3 text-sm font-bold text-white shadow-soft transition hover:bg-clay">Create account</button>
+      </form>
+      <p class="mt-6 text-center text-sm text-taupe/70">Already have an account? <a href="{% url 'accounts:login' %}" class="font-bold text-terracotta">Log in</a></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

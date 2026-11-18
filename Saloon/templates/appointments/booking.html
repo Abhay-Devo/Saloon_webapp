@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="mb-8 text-center">
+    <p class="text-xs font-bold uppercase tracking-[0.24em] text-taupe/60">Book appointment</p>
+    <h1 class="mt-4 text-4xl font-extrabold text-taupe">Reserve the perfect slot.</h1>
+  </div>
+
+  <div class="rounded-[32px] border border-taupe/10 bg-white/80 p-8 shadow-soft">
+    <form method="get" class="grid gap-6 md:grid-cols-4">
+      <div>
+        <label for="business" class="mb-2 block text-sm font-bold text-taupe">Salon</label>
+        <select name="business" id="business" class="booking-select" hx-get="{% url 'appointments:slots' %}" hx-target="#slot-container" hx-include="[name='date'], [name='service']">
+          {% for shop in businesses %}
+            <option value="{{ shop.id }}" {% if business and shop.id == business.id %}selected{% endif %}>{{ shop.name }}</option>
+          {% empty %}
+            <option value="">No approved salons available</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="service" class="mb-2 block text-sm font-bold text-taupe">Service</label>
+        <select name="service" id="service" class="booking-select" hx-get="{% url 'appointments:slots' %}" hx-target="#slot-container" hx-include="[name='date'], [name='business']">
+          {% for service in services %}
+            <option value="{{ service.id }}" {% if selected_service and service.id == selected_service.id %}selected{% endif %}>{{ service.name }} • ₹{{ service.price }}</option>
+          {% empty %}
+            <option value="">No services available</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="date" class="mb-2 block text-sm font-bold text-taupe">Preferred date</label>
+        <input name="date" id="date" type="date" value="{{ selected_date }}" min="{{ today }}" class="booking-input" hx-get="{% url 'appointments:slots' %}" hx-target="#slot-container" hx-include="[name='service'], [name='business']" />
+      </div>
+      <div class="flex items-end">
+        <button type="submit" class="w-full rounded-full bg-taupe px-5 py-3 text-sm font-bold text-white shadow-soft transition hover:bg-[#2d2825]">Refresh</button>
+      </div>
+    </form>
+
+    <div id="slot-container" class="mt-8">
+      {% include 'appointments/partials/slots.html' %}
+    </div>
+  </div>
+</section>
+{% endblock %}

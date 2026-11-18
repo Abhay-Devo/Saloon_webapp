@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Business onboarding{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="mb-8">
+    <p class="text-xs font-bold uppercase tracking-[0.24em] text-taupe/60">Business onboarding</p>
+    <h1 class="mt-4 text-4xl font-extrabold text-taupe">Set up your salon profile.</h1>
+    <p class="mt-3 max-w-2xl text-base leading-7 text-taupe/75">Add your service details, business contact info, and operating hours so customers can see exactly what you offer and when you are open.</p>
+  </div>
+
+  <div class="rounded-[32px] border border-taupe/10 bg-white/80 p-8 shadow-soft">
+    <form method="post" class="grid gap-6 md:grid-cols-2">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="{% if field.name == 'address' or field.name == 'tagline' %}md:col-span-2{% endif %}">
+          <label for="{{ field.id_for_label }}" class="mb-2 block text-sm font-bold text-taupe">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}<p class="mt-2 text-xs text-taupe/60">{{ field.help_text }}</p>{% endif %}
+          {% if field.errors %}<div class="mt-2 text-sm text-red-600">{{ field.errors|join:', ' }}</div>{% endif %}
+        </div>
+      {% endfor %}
+      <div class="md:col-span-2 flex justify-end">
+        <button type="submit" class="rounded-full bg-terracotta px-6 py-3 text-sm font-bold text-white shadow-soft transition hover:bg-clay">Save business profile</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

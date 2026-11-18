@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Velvet & Blade{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              parchment: '#F3EEE3',
+              taupe: '#4A433C',
+              sandstone: '#E6DFD1',
+              terracotta: '#D9541E',
+              clay: '#C84728',
+              ink: '#271F1B',
+            },
+            boxShadow: {
+              soft: '0 10px 30px rgba(74, 67, 60, 0.12)',
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  </head>
+  <body class="bg-parchment text-taupe antialiased" style="font-family: 'Manrope', sans-serif;">
+    <div class="min-h-screen bg-gradient-to-b from-parchment via-[#f7f1e7] to-[#f2eadf]">
+      <header class="sticky top-0 z-50 border-b border-taupe/10 bg-parchment/90 backdrop-blur-xl">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+          <div class="flex items-center gap-3">
+            <button type="button" class="rounded-full border border-taupe/15 bg-white/70 px-3 py-2 text-sm font-semibold text-taupe shadow-sm transition hover:bg-white" onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '{% url 'core:home' %}'; }">Back</button>
+            <a href="{% url 'core:home' %}" class="flex items-center gap-3">
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-taupe text-lg font-extrabold text-parchment shadow-soft">V</div>
+              <div>
+                <div class="text-lg font-extrabold tracking-tight text-taupe">Velvet & Blade</div>
+                <div class="text-[10px] font-semibold uppercase tracking-[0.22em] text-taupe/60">Salon booking</div>
+              </div>
+            </a>
+          </div>
+          <div class="hidden items-center gap-8 md:flex">
+            <a href="#features" class="text-sm font-semibold text-taupe/80 transition hover:text-taupe">Features</a>
+            <a href="#how-it-works" class="text-sm font-semibold text-taupe/80 transition hover:text-taupe">How it works</a>
+            <a href="#pricing" class="text-sm font-semibold text-taupe/80 transition hover:text-taupe">Pricing</a>
+            <a href="#reviews" class="text-sm font-semibold text-taupe/80 transition hover:text-taupe">Reviews</a>
+          </div>
+          <div class="flex items-center gap-3">
+            {% if user.is_authenticated %}
+              <a href="{% url 'users:dashboard' %}" class="rounded-full border border-taupe/15 bg-white/60 px-4 py-2 text-sm font-semibold text-taupe shadow-sm transition hover:bg-white">Dashboard</a>
+              <a href="{% url 'accounts:logout' %}" class="rounded-full bg-taupe px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2e2926]">Log out</a>
+            {% else %}
+              <a href="{% url 'accounts:login' %}" class="rounded-full border border-taupe/15 bg-white/60 px-4 py-2 text-sm font-semibold text-taupe shadow-sm transition hover:bg-white">Log in</a>
+              <a href="{% url 'accounts:register' %}" class="rounded-full bg-terracotta px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-clay">Book now</a>
+            {% endif %}
+          </div>
+        </nav>
+      </header>
+
+      <main>
+        {% block content %}{% endblock %}
+      </main>
+
+      <footer class="border-t border-taupe/10 bg-[#efe6d9]">
+        <div class="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-5 lg:px-8">
+          <div class="lg:col-span-2">
+            <div class="flex items-center gap-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-taupe text-base font-extrabold text-parchment">V</div>
+              <div>
+                <div class="text-base font-extrabold text-taupe">Velvet & Blade</div>
+              </div>
+            </div>
+            <p class="mt-4 max-w-xs text-sm leading-6 text-taupe/70">A modern booking experience designed for salons, spas, and premium self-care businesses.</p>
+          </div>
+          <div>
+            <h4 class="text-sm font-extrabold uppercase tracking-[0.18em] text-taupe/70">Company</h4>
+            <ul class="mt-4 space-y-3 text-sm text-taupe/75">
+              <li>About</li>
+              <li>Careers</li>
+              <li>Partners</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-sm font-extrabold uppercase tracking-[0.18em] text-taupe/70">Products</h4>
+            <ul class="mt-4 space-y-3 text-sm text-taupe/75">
+              <li>Scheduling</li>
+              <li>Memberships</li>
+              <li>Analytics</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-sm font-extrabold uppercase tracking-[0.18em] text-taupe/70">Get started</h4>
+            <ul class="mt-4 space-y-3 text-sm text-taupe/75">
+              <li><a href="{% url 'accounts:business_register' %}" class="transition hover:text-taupe">Register your business</a></li>
+              <li><a href="{% url 'accounts:register' %}" class="transition hover:text-taupe">Book as a customer</a></li>
+              <li><a href="{% url 'accounts:login' %}" class="transition hover:text-taupe">Sign in</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

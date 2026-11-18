@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="grid items-center gap-8 lg:grid-cols-[1fr_0.9fr]">
+    <div class="rounded-[32px] border border-taupe/10 bg-white/70 p-8 shadow-soft">
+      <p class="text-xs font-bold uppercase tracking-[0.24em] text-taupe/60">Welcome back</p>
+      <h1 class="mt-4 text-4xl font-extrabold text-taupe">Access your salon dashboard.</h1>
+      <p class="mt-4 max-w-md text-base leading-7 text-taupe/75">Log in to manage bookings, service timing, business details, and your customer flow with less manual work.</p>
+      <div class="mt-8 space-y-4 text-sm text-taupe/80">
+        <div class="flex items-center gap-3 rounded-2xl bg-[#f5efe7] px-4 py-3"><span class="text-lg">✓</span> Quick customer appointment lookup</div>
+        <div class="flex items-center gap-3 rounded-2xl bg-[#f5efe7] px-4 py-3"><span class="text-lg">✓</span> Live slot visibility for all salon services</div>
+        <div class="flex items-center gap-3 rounded-2xl bg-[#f5efe7] px-4 py-3"><span class="text-lg">✓</span> Better repeat customer experience</div>
+      </div>
+    </div>
+
+    <div class="rounded-[32px] border border-taupe/10 bg-white/80 p-8 shadow-soft">
+      <h2 class="text-2xl font-extrabold text-taupe">Sign in</h2>
+      <form method="post" class="mt-6 space-y-5">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <div class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <div>
+          <label for="id_username" class="mb-2 block text-sm font-bold text-taupe">Username</label>
+          {{ form.username }}
+        </div>
+        <div>
+          <label for="id_password" class="mb-2 block text-sm font-bold text-taupe">Password</label>
+          {{ form.password }}
+        </div>
+        <button type="submit" class="w-full rounded-full bg-terracotta px-5 py-3 text-sm font-bold text-white shadow-soft transition hover:bg-clay">Log in</button>
+      </form>
+      <p class="mt-6 text-center text-sm text-taupe/70">Need an account? <a href="{% url 'accounts:register' %}" class="font-bold text-terracotta">Create one</a></p>
+    </div>
+  </div>
+</section>
+{% endblock %}
